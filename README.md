@@ -20,3 +20,10 @@ module.exports = exports;
 ```
 ### node app.js
 ### 打开 http://127.0.0.1:3000/sign/getERC20ClaimData
+<br>
+
+## 服务器已安装forever
+### npm install forever -g   #安装
+### forever start app.js  #启动应用
+### forever stop app.js  #关闭应用
+### forever list #显示所有运行的服务 
