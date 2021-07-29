@@ -4,7 +4,7 @@ var exports = {
     port: 3000,
     fliePath: 'http://xxx/upload/',
     db_user: 'root',
-    db_pwd: '',
+    db_pwd: 'a',
     db_host: 'localhost',
     db_port: 27017,
     db_name: 'dedrops',
