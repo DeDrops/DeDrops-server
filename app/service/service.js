@@ -1,32 +1,13 @@
-const eth = require('./eth')
-const chainlink = require('./chainlink')
-
-var _default = nil
-
-export function load(ctx) {
-    if (!_default) {
-        _default = new Service(ctx)
-    }
-    return _default
-}
-
-export class Service {
+class Service {
 
     constructor(ctx) {
         this.ctx = ctx
         
         this.ctx.service = ctx.service || {}
         let name = this.constructor.name
-        if (name.endsWith('Service')) {
+        if (name.length > 7 && name.endsWith('Service')) {
             let cname = name.substring(0, name.length - 7).toLowerCase()
             this.ctx.service[cname] = this;
-        }
-
-        if (!this.ctx.service.eth) {
-            this.ctx.service.eth = new eth(this.ctx)
-        }
-        if (!this.ctx.service.chainlink) {
-            this.ctx.service.chainlink = new chainlink(this.ctx)
         }
     }
 
@@ -34,3 +15,5 @@ export class Service {
         return this.ctx.service
     }
 }
+
+module.exports = Service

@@ -1,6 +1,6 @@
 const Service = require('./service')
 const ethers = require('ethers')
-const config = require('../../conf/config.js');
+const config = require('../../conf/config.js')
 const LinkABI = require('../../res/abi/Chainlink.json')
 const BigNumber = ethers.BigNumber
 

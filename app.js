@@ -4,7 +4,7 @@ const path = require('path')
 const koaBody = require('koa-body')
 const staticResource = require('koa-static')
 
-const Service = require('./app/service/service')
+const Service = require('./app/service/context')
 
 var config = require('./conf/config.js')
 

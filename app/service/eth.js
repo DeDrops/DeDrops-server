@@ -1,6 +1,6 @@
-const Service = require('./service');
-const ethers = require('ethers');
-const config = require('../../conf/config.js');
+const Service = require('./service')
+const ethers = require('ethers')
+const config = require('../../conf/config.js')
 const BigNumber = ethers.BigNumber
 const ERC20ABI = require('../../res/abi/ERC20.json')
 
