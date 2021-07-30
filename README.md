@@ -63,7 +63,7 @@ module.exports = exports;
 <br>
 
 # 合约说明
-## DeDropsNFT合约
+### DeDropsNFT合约
 ### 用于铸造NFT并且转入Bank1155合约，每次调用mint可以铸造一批次的NFT，批次id自增
 ### 写入接口 mint
 ### 参数 
@@ -89,7 +89,7 @@ module.exports = exports;
 <br>
 <br>
 
-## DeDropsERC合约
+### DeDropsERC合约
 ### 用于接收空投的ERC20token并且转入Bank20合约，并且把空投信息记录上链
 ### 写入接口 drop
 ### 参数 
@@ -119,7 +119,7 @@ module.exports = exports;
 <br>
 <br>
 
-## Bank1155合约
+### Bank1155合约
 ### 用于分发NFT，用户提交签名来领取NFT
 ### 写入接口 claim
 ### 参数 
@@ -143,7 +143,7 @@ module.exports = exports;
 <br>
 <br>
 
-## Bank20合约
+### Bank20合约
 ### 用于分发ERC20token，用户提交签名来领取token
 ### 写入接口 claim
 ### 参数 
