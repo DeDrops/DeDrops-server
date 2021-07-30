@@ -7,6 +7,8 @@
 var exports = {
     port: 3000,
     fliePath: 'http://xxx/upload/',
+    eth_account: '0xFa7...',
+    eth_privateKey: '6921...',
     db_user: 'root',
     db_pwd: '123456',
     db_host: 'localhost',
