@@ -2,15 +2,18 @@ const Koa = require('koa')
 const router = require('koa-router')()
 const path = require('path')
 const koaBody = require('koa-body')
+const bodyParser = require('koa-bodyparser');
 const staticResource = require('koa-static')
 
 const Service = require('./app/service/context')
+const Schedule = require('./app/schedule/context')
 
 var config = require('./conf/config.js')
 
 const app = new Koa()
 
 Service.load(app.context)
+Schedule.load(app.context)
 
 //配置静态web服务的中间件
 app.use(staticResource(__dirname + '/static'))
@@ -31,13 +34,14 @@ app.use(async (ctx, next) => {
 	await next();
 })
 
-router.use('/address/assets', require('./app/controller/address'))
+router.use('/address', require('./app/controller/address.js'))
 router.use('/signTest', require('./routes/signTest.js'))
 router.use('/upload', require('./routes/upload.js'))
 router.use('/', async ctx => {
 	ctx.body = 'Hello World'
 })
 
+app.use(bodyParser())
 app.use(router.routes())   /*启动路由*/
 app.use(router.allowedMethods())
 

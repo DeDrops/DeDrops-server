@@ -4,10 +4,10 @@ const config = require('../../conf/config.js')
 const BigNumber = ethers.BigNumber
 const ERC20ABI = require('../../res/abi/ERC20.json')
 
-class EthService extends Service {
+class PolygonService extends Service {
     get provider() {
         if (!this._provider) {
-            this._provider = new ethers.providers.JsonRpcProvider(config.eth.httpServer)
+            this._provider = new ethers.providers.JsonRpcProvider(config.polygon.httpServer)
         }
         return this._provider
     }
@@ -24,13 +24,13 @@ class EthService extends Service {
         return new ethers.Contract(contract, abi, this.provider);
     }
 
-    async balance(address) {
-        return await this.balanceOf(address, 'eth')
+    async balacne(address) {
+        return await this.balanceOf(address, 'matic')
     }
 
     async balanceOf(address, token) {
         token = token.toLowerCase();
-        if (token == 'eth' || token == 'ethereum') {
+        if (token == 'matic') {
             let balacne = await this.provider.getBalance(address)
             return balacne.div(BigNumber.from(10).pow(18)).toString()
         } else {
@@ -42,4 +42,4 @@ class EthService extends Service {
     }
 }
 
-module.exports = EthService;
+module.exports = PolygonService;

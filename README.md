@@ -61,3 +61,21 @@ module.exports = exports;
 
 <br>
 <br>
+
+### 接口 address/check(address, nftId)
+
+#### Method
+GET
+
+#### 参数 
+    address       用户地址
+    nftId nftid
+### 返回   
+    data.match 是否达到标准
+    data.nft nft信息
+    data.money 资产是否达标
+    data.actions 交互是否达标
+    data.sign 签名信息
+<br>
+<br>
+
