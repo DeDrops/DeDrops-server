@@ -28,7 +28,7 @@ app.use(async (ctx, next) => {
 	await next();
 })
 
-router.use('/sign', require('./routes/sign.js'))
+router.use('/signTest', require('./routes/signTest.js'))
 router.use('/upload', require('./routes/upload.js'))
 router.use('/', async ctx => {
 	ctx.body = 'Hello World'

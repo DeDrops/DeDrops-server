@@ -3,7 +3,7 @@ const router = require('koa-router')();
 const path = require('path');
 const fs = require('fs');
 const date = require("silly-datetime");
-const utils = require('./util/utils.js');
+const utils = require('./tools/utils.js');
 const config = require('../conf/config.js');
 
 //单文件上传
