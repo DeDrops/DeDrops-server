@@ -44,6 +44,7 @@ function signERC1155Claim(obj) {
     let signingKey = new ethers.utils.SigningKey(privateKey)
     let sign = signingKey.signDigest(digest)
     let vrs = utils.splitSignature(sign)
+    vrs.digest = digest
     console.log(vrs)
 
     return vrs
@@ -79,6 +80,7 @@ function signERC20Claim(obj) {
 	let signingKey = new ethers.utils.SigningKey(privateKey)
 	let sign = signingKey.signDigest(digest)
 	let vrs = utils.splitSignature(sign)
+    vrs.digest = digest
     console.log(vrs)
 
     return vrs
