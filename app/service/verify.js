@@ -49,31 +49,17 @@ class VerifyService extends Service {
             throw new Error('token not found')
         }
         token = token[0]
-        let resp = {drop: token, match: true, value: '0'}
-        if (BigNumber.from(token.rules.money).gt(0)) {
-            let assets = await this.service.chainlink.totalAssets(address)
-            resp.money = {
-                assets: assets,
-                match: BigNumber.from(assets.total).gte(token.rules.money)
-            }
-            resp.match = resp.match && resp.money.match
-        }
-        if (token.rules.actions && token.rules.actions.length > 0) {
-            resp.actions = {}
-            for (let act of token.rules.actions) {
-                switch(act.key) {
-                    case 'sushi-swap':
-                        let count = await this.service.graph.sushiSwapCount(address)
-                        resp.actions[act.key] = {
-                            swap: count,
-                            match: BigNumber.from(count).gte(act.count)
-                        }
-                        resp.match = resp.match && resp.actions[act.key].match
-                }
-            }
+
+        let resp = {drop: token, nfts:{}, match: true, value: '0'}
+
+        for (let nft of token.rules.condition) {
+            let nftResp = await this.checkNftDrop(address, nft)
+            console.log('nftResp:', nftResp)
+            resp.nfts[nft] = nftResp
+            resp.match = resp.match && nftResp.match
         }
         if (resp.match) {
-            resp.value = BigNumber.from(token.amount).div(token.info.nftCount).toString()
+            resp.value = BigNumber.from(token.amount).div(token.rules.airdrop.tokenClaimableCount).toString()
         }
         return resp
     }
