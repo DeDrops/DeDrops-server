@@ -26,14 +26,8 @@ class DropERC extends Subscription {
                 let contract = this.service.polygon.getContract(addr, DropABI)
 
                 contract.on('Drop', (id, token, amount, info, info2) => {
-                    if (info instanceof String) {
-                        info = JSON.parse(info)
-                    }
-                    if (info2 instanceof String) {
-                        info2 = JSON.parse(info2)
-                    }
-                    console.log('drop erc event:', id, token, amount, info, info2)
-                    ctx.handleEvent(id, token, amount, info, info2)
+                    // console.log('drop erc event:', id, token, amount, info, info2)
+                    ctx.handleEvent(id.toString(), token, amount.toString(), JSON.parse(info), JSON.parse(info2))
                 })
             } catch (e) {
                 this.isWatching = false
@@ -48,22 +42,19 @@ class DropERC extends Subscription {
         //     "nftCount":"99",
         // }
         // let rules = {"actions":[{"key":"sushi-swap","count":"1"},{"key":"gitcoin-grant","count":"1"}],"money":0}
-        // this.handleEvent(BigNumber.from(1), '0xA93a1B78Fb909073BD721FCb5892CDCe067A612C', BigNumber.from(100), info, rules)
+        // this.handleEvent('1', '0xA93a1B78Fb909073BD721FCb5892CDCe067A612C','100', info, rules)
     }
 
     async handleEvent(id, token, amount, info, info2) {
-        let filter = {
-            id: id.toString(),
-            token: token,
-        }
-        await db.deleteObj(db.Collections.erc20, filter)
+        await db.deleteObj(db.Collections.erc20, {id: id})
         let item = {
-            id: id.toString(),
+            id: id,
             token: token,
-            amount: amount.toString(),
+            amount: amount,
             info: info,
             rules: info2
         }
+        console.log('drop token event:', item)
         await db.save(db.Collections.erc20, item)
     }
 }

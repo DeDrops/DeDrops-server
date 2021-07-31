@@ -32,9 +32,10 @@ router.get('/checkNft', async (ctx) => {
 		if (resp.match) {
 			let body = {
 				id: id,
-				spender: config.eth_account,
+				spender: address,
 				deadline: new Date().getTime() + 1000000
-			}	
+			}
+			resp.unsign = body	
 			resp.sign = sign.signERC1155Claim(body)
 		}
 		ctx.body = {
@@ -56,8 +57,8 @@ router.get('/checkToken', async (ctx) => {
 
 		let item = {
             token: token,
-            owner: address,
-            spender: config.eth_account,
+            owner: config.eth_account,
+            spender: address,
 			value: resp.value,
 			match: resp.match
         }
@@ -66,12 +67,12 @@ router.get('/checkToken', async (ctx) => {
 		if (resp.match) {
 			let body = {
 				token: token,
-				owner: address,
-				spender: config.eth_account,
+				owner: config.eth_account,
+				spender: address,
 				value: resp.value,
 				deadline: new Date().getTime() + 1000000
 			}
-	
+			resp.unsign = body
 			resp.sign = sign.signERC20Claim(body)
 		}
 		ctx.body = {

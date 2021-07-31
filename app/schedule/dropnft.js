@@ -26,14 +26,8 @@ class DropNFT extends Subscription {
                 let contract = this.service.polygon.getContract(addr, DropABI)
 
                 contract.on('Drop', (id, amount, info, info2) => {
-                    if (info instanceof String) {
-                        info = JSON.parse(info)
-                    }
-                    if (info2 instanceof String) {
-                        info2 = JSON.parse(info2)
-                    }
-                    console.log('drop nft event:',id, amount, info, info2)
-                    ctx.handleEvent(id, amount, info, info2)
+                    // console.log('drop nft event:',id, amount, info, info2)
+                    ctx.handleEvent(id.toString(), amount.toString(), JSON.parse(info), JSON.parse(info2))
                 })
             } catch (e) {
                 this.isWatching = false
@@ -41,26 +35,23 @@ class DropNFT extends Subscription {
             }
         }
 
-        // test storage
-        // let info = {
-        //     "name":"DEFI韭菜勋章",
-        //     "imgUrl":"https://i2.hhbkg.com/img/3105/fiuigydbujp.jpg",
-        //     "desc":"不卖！不卖！就是不卖！",
-        //     "nftCount":"99",
-        // }
+        // let info = {"id":"3","amount":"100","info":"{\"name\":\"无条件领取\",\"imgUrl\":\"https://polygon.technology/wp-content/uploads/2021/06/multichain.svg\",\"desc\":\"\",\"nftCount\":\"100\"}","rules":"{\"actions\":null,\"money\":0}"}
+        // info.info = JSON.parse(info.info)
+        // info.rules = JSON.parse(info.rules)
         // let rules = {"actions":[{"key":"sushi-swap","count":"1"},{"key":"gitcoin-grant","count":"1"}],"money":0}
-        // this.handleEvent(BigNumber.from(1), BigNumber.from(100), info, rules)
+        // this.handleEvent(info.id, info.amount, info.info, info.rules)
     }
 
     async handleEvent(id, amount, info, info2) {
         // console.log('handle event')
         let nft = {
-            id: id.toString(),
-            amount: amount.toString(),
+            id: id,
+            amount: amount,
             info: info,
             rules: info2
         }
-        await db.deleteObj(db.Collections.nft, {id: id.toString()})
+        console.log('drop nft event:', JSON.stringify(nft))
+        await db.deleteObj(db.Collections.nft, {id: id})
         await db.save(db.Collections.nft, nft)
     }
 }

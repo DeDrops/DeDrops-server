@@ -69,12 +69,13 @@ GET
 
 #### 参数 
     address       用户地址
-    id nftid
+    id indexed id
 ### 返回   
     data.match 是否达到标准
-    data.nft nft信息
+    data.drop nft信息
     data.money 资产是否达标
     data.actions 交互是否达标
+    data.unsign 未签名信息
     data.sign 签名信息
 <br>
 <br>
@@ -86,12 +87,13 @@ GET
 
 #### 参数 
     address       用户地址
-    id id
+    id indexed id
 ### 返回   
     data.match 是否达到标准
-    data.nft nft信息
+    data.drop token nft信息
     data.money 资产是否达标
     data.actions 交互是否达标
+    data.unsign 未签名信息
     data.sign 签名信息
 <br>
 <br>

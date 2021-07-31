@@ -36,10 +36,6 @@ class VerifyService extends Service {
                             match: BigNumber.from(count).gte(act.count)
                         }
                         resp.match = resp.match && resp.actions[act.key].match
-                    default:
-                        resp.actions[act.key] = {
-                            match: true
-                        }
                 }
             }
         }
@@ -73,10 +69,6 @@ class VerifyService extends Service {
                             match: BigNumber.from(count).gte(act.count)
                         }
                         resp.match = resp.match && resp.actions[act.key].match
-                    default:
-                        resp.actions[act.key] = {
-                            match: true
-                        }
                 }
             }
         }
