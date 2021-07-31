@@ -41,12 +41,14 @@ class DropNFT extends Subscription {
     }
 
     async handleEvent(id, amount, info, info2) {
+        // console.log('handle event')
         let nft = {
             id: id.toString(),
             amount: amount.toString(),
             info: info,
             rules: info2
         }
+        await db.deleteObj(db.Collections.nft, {id: id.toString()})
         await db.save(db.Collections.nft, nft)
     }
 }

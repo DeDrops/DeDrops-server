@@ -10,10 +10,11 @@ const db = require('../../routes/model/db')
 class NFTService extends Service {
     async check(address, nftId) {
         console.log('check:',address, nftId)
-        let nft = await db.getOnce(db.Collections.nft, {id: nftId})
-        if (!nft) {
+        let nft = await db.get(db.Collections.nft, {id: nftId})
+        if (!nft || nft.length == 0) {
             throw new Error('nft not found')
         }
+        nft = nft[0]
         let resp = {nft: nft, match: true}
         if (BigNumber.from(nft.rules.money).gt(0)) {
             let assets = await this.service.chainlink.totalAssets(address)
@@ -28,10 +29,10 @@ class NFTService extends Service {
             for (let act of nft.rules.actions) {
                 switch(act.key) {
                     case 'sushi-swap':
-                        let count = await this.service.grap.sushiSwapCount(address)
+                        let count = await this.service.graph.sushiSwapCount(address)
                         resp.actions[act.key] = {
                             swap: count,
-                            match: BigNumber.from(count.gte(act.count))
+                            match: BigNumber.from(count).gte(act.count)
                         }
                         resp.match = resp.match && resp.actions[act.key].match
                     default:
@@ -41,7 +42,6 @@ class NFTService extends Service {
                 }
             }
         }
-        console.log('resp:', resp)
         return resp
     }
 }

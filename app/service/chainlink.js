@@ -30,9 +30,9 @@ class LinkService extends Service {
         }
         let tokens = this._tokens()
         for (let token of tokens) {
-            let price = await this.getPrice(token)
             let balacne = await this.service.eth.balanceOf(address, token)
             if (BigNumber.from(balacne).gt(0)) {
+                let price = await this.getPrice(token)
                 assets[token] = {
                     price: price,
                     balacne: balacne,
