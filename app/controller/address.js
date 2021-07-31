@@ -5,6 +5,9 @@ const config = require('../../conf/config.js');
 const service = require('../service/service')
 const sign = require('../../routes/tools/sign');
 const db = require('../../routes/model/db.js');
+const Bank1155ABI = require('../../res/abi/Bank1155.json').abi
+const Bank20ABI = require('../../res/abi/Bank20.json').abi
+
 
 // 查询地址资产
 router.get('/assets', async (ctx) => {
@@ -32,11 +35,15 @@ router.get('/checkNft', async (ctx) => {
 		if (resp.match) {
 			let body = {
 				id: id,
+				owner: config.eth_account,
 				spender: address,
 				deadline: new Date().getTime() + 1000000
 			}
 			resp.unsign = body	
 			resp.sign = sign.signERC1155Claim(body)
+
+			let contract = ctx.service.polygon.getContract(config.polygon.contract.bank1155, Bank1155ABI)
+			resp.claimed = await contract.nonces(resp.sign.digest)
 		}
 		ctx.body = {
 			code: 0,
@@ -74,6 +81,9 @@ router.get('/checkToken', async (ctx) => {
 			}
 			resp.unsign = body
 			resp.sign = sign.signERC20Claim(body)
+
+			let contract = ctx.service.polygon.getContract(config.polygon.contract.bank20, Bank20ABI)
+			resp.claimed = await contract.nonces(resp.sign.digest)
 		}
 		ctx.body = {
 			code: 0,
