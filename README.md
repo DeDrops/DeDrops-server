@@ -69,7 +69,7 @@ GET
 
 #### 参数 
     address       用户地址
-    nftId nftid
+    id nftid
 ### 返回   
     data.match 是否达到标准
     data.nft nft信息
@@ -86,7 +86,7 @@ GET
 
 #### 参数 
     address       用户地址
-    nftId nftid
+    id nftid
 ### 返回   
     data.match 是否达到标准
     data.nft nft信息
