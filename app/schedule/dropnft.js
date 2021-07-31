@@ -26,6 +26,12 @@ class DropNFT extends Subscription {
                 let contract = this.service.polygon.getContract(addr, DropABI)
 
                 contract.on('Drop', (id, amount, info, info2) => {
+                    if (info instanceof String) {
+                        info = JSON.parse(info)
+                    }
+                    if (info2 instanceof String) {
+                        info2 = JSON.parse(info2)
+                    }
                     console.log('drop nft event:',id, amount, info, info2)
                     ctx.handleEvent(id, amount, info, info2)
                 })

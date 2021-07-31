@@ -26,6 +26,12 @@ class DropERC extends Subscription {
                 let contract = this.service.polygon.getContract(addr, DropABI)
 
                 contract.on('Drop', (id, token, amount, info, info2) => {
+                    if (info instanceof String) {
+                        info = JSON.parse(info)
+                    }
+                    if (info2 instanceof String) {
+                        info2 = JSON.parse(info2)
+                    }
                     console.log('drop erc event:', id, token, amount, info, info2)
                     ctx.handleEvent(id, token, amount, info, info2)
                 })
