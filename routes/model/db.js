@@ -4,6 +4,7 @@ const config = require('../../conf/config.js')
 
 const Collections = {
     nft: 'nft',
+    erc20: 'erc20',
     erc20claims: 'erc20claims'
 }
 
@@ -38,6 +39,8 @@ async function save(collection, obj) {
     try {
         conn = await MongoClient.connect(config.db_url(), { useUnifiedTopology: true })
         let dbcollection = conn.db(config.db_name).collection(collection)
+
+        obj.time = Date.now()
         await dbcollection.insertOne(obj)
     } catch (err) {
         console.log('[db][save][ERROR]：' + err.message)

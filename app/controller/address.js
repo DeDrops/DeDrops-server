@@ -27,13 +27,13 @@ router.get('/checkNft', async (ctx) => {
 	try {
 		let address = ctx.query.address
 		let id = ctx.query.id
-		let resp = await ctx.service.nft.check(address, id)
+		let resp = await ctx.service.verify.checkNftDrop(address, id)
 
 		if (resp.match) {
 			let body = {
 				id: id,
 				spender: config.eth_account,
-				deadline: new Date().getTime() + 100000
+				deadline: new Date().getTime() + 1000000
 			}	
 			resp.sign = sign.signERC1155Claim(body)
 		}
@@ -51,27 +51,25 @@ router.get('/checkToken', async (ctx) => {
 	try {
 		let address = ctx.query.address
 		let id = ctx.query.id
-		let resp = await ctx.service.nft.check(address, id)
-		let token = resp.nft.info.airdrop.token
-
-		let value = '1000000000000000000'
+		let resp = await ctx.service.verify.checkTokenDrop(address, id)
+		let token = resp.drop.token
 
 		let item = {
             token: token,
             owner: address,
             spender: config.eth_account,
-			value: value,
+			value: resp.value,
 			match: resp.match
         }
-		await db.saveERC20ClaimData(item)
+		await db.save(db.Collections.erc20claims, item)
 
 		if (resp.match) {
 			let body = {
 				token: token,
 				owner: address,
 				spender: config.eth_account,
-				value: value,
-				deadline: new Date().getTime() + 100000
+				value: resp.value,
+				deadline: new Date().getTime() + 1000000
 			}
 	
 			resp.sign = sign.signERC20Claim(body)

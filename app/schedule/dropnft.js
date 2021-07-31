@@ -34,15 +34,13 @@ class DropNFT extends Subscription {
                 console.log(e)
             }
         }
-        //test storage
+
+        // test storage
         // let info = {
         //     "name":"DEFI韭菜勋章",
         //     "imgUrl":"https://i2.hhbkg.com/img/3105/fiuigydbujp.jpg",
         //     "desc":"不卖！不卖！就是不卖！",
         //     "nftCount":"99",
-        //     "airdrop":{
-        //         "token":"0x67a32987a8eaa0644702c362b53b8eebd126c20b"
-        //     }
         // }
         // let rules = {"actions":[{"key":"sushi-swap","count":"1"},{"key":"gitcoin-grant","count":"1"}],"money":0}
         // this.handleEvent(BigNumber.from(1), BigNumber.from(100), info, rules)
