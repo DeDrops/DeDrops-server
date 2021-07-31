@@ -62,7 +62,7 @@ module.exports = exports;
 <br>
 <br>
 
-### 接口 address/checkNft(address, nftId)
+### 接口 address/checkNft(address, id)
 
 #### Method
 GET
@@ -79,14 +79,14 @@ GET
 <br>
 <br>
 
-### 接口 address/checkToken(address, nftId, token)
+### 接口 address/checkToken(address, id)
 
 #### Method
 GET
 
 #### 参数 
     address       用户地址
-    id nftid
+    id id
 ### 返回   
     data.match 是否达到标准
     data.nft nft信息
