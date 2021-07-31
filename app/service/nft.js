@@ -15,6 +15,7 @@ class NFTService extends Service {
             throw new Error('nft not found')
         }
         nft = nft[0]
+        // console.log('nft:',nft)
         let resp = {nft: nft, match: true}
         if (BigNumber.from(nft.rules.money).gt(0)) {
             let assets = await this.service.chainlink.totalAssets(address)

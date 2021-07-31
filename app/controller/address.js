@@ -51,13 +51,16 @@ router.get('/checkToken', async (ctx) => {
 	try {
 		let address = ctx.query.address
 		let id = ctx.query.id
-		let token = ctx.query.token
 		let resp = await ctx.service.nft.check(address, id)
+		let token = resp.nft.info.airdrop.token
+
+		let value = '1000000000000000000'
 
 		let item = {
             token: token,
             owner: address,
             spender: config.eth_account,
+			value: value,
 			match: resp.match
         }
 		await db.saveERC20ClaimData(item)
@@ -67,7 +70,7 @@ router.get('/checkToken', async (ctx) => {
 				token: token,
 				owner: address,
 				spender: config.eth_account,
-				value: '1000000000000000000',
+				value: value,
 				deadline: new Date().getTime() + 100000
 			}
 	

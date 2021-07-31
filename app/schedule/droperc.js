@@ -54,7 +54,7 @@ class DropERC extends Subscription {
         item.amount = amount.toString()
         // item.info = info
         // item.rules = info2
-        await db.save(db.Collections.erc20claims, item)
+        await db.saveERC20ClaimData(item)
     }
 }
 
