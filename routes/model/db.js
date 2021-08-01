@@ -4,6 +4,7 @@ const config = require('../../conf/config.js')
 
 const Collections = {
     nft: 'nft',
+    nftclaims: 'nftclaims',
     erc20: 'erc20',
     erc20claims: 'erc20claims'
 }
