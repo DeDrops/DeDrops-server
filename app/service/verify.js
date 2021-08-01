@@ -29,13 +29,46 @@ class VerifyService extends Service {
             resp.actions = {}
             for (let act of nft.rules.actions) {
                 switch(act.key) {
-                    case 'sushi-swap':
+                    case 'sushi-swap': {
                         let count = await this.service.graph.sushiSwapCount(address)
                         resp.actions[act.key] = {
                             swap: count,
                             match: BigNumber.from(count).gte(act.count)
                         }
                         resp.match = resp.match && resp.actions[act.key].match
+                        break
+                    }
+                    case 'sushi-addlp': {
+                        let count = await this.service.graph.sushiAddlpCount(address)
+                        resp.actions[act.key] = {
+                            addlp: count,
+                            match: BigNumber.from(count).gte(act.count)
+                        }
+                        resp.match = resp.match && resp.actions[act.key].match
+                        break
+                    }
+                    case 'quickswap-swap': {
+                        let count = await this.service.graph.quickSwapCount(address)
+                        resp.actions[act.key] = {
+                            swap: count,
+                            match: BigNumber.from(count).gte(act.count)
+                        }
+                        resp.match = resp.match && resp.actions[act.key].match
+                    }
+                    case 'quickswap-addlp':{
+                        let count = await this.service.graph.quickAddlpCount(address)
+                        resp.actions[act.key] = {
+                            addlp: count,
+                            match: BigNumber.from(count).gte(act.count)
+                        }
+                        resp.match = resp.match && resp.actions[act.key].match
+                        break
+                    }
+                    default:
+                        resp.actions[act.key] = {
+                            default: true,
+                            match: true
+                        }
                 }
             }
         }

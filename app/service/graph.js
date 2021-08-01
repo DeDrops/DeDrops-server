@@ -15,17 +15,64 @@ class GraphService extends Service {
         return resp.data.data
     }
 
-    async sushiSwapCount(address) {
+    async swapCount(swapGraph, address) {
         let query = {
-            "query":`{\n  swaps(where:{sender:\"${address}\"}) {\n    id\n  }\n}\n`,
+            "query":`{swaps(where:{to:"${address}" }){
+                id
+                sender
+                to
+                timestamp
+              }
+              mints(where:{to:"${address}"}){
+                id
+                sender
+                to
+                timestamp
+              }
+              burns(where:{sender:"${address}"}){
+                id
+                sender
+                to
+                timestamp
+              }
+            }`,
             "variables":null
         }
-        let resp = await this.query(config.graph.sushi, query)
-        return resp.swaps.length
+        let resp = await this.query(swapGraph, query)
+        return resp.swaps.length + resp.mints.length + resp.burns.length
     }
 
-    async sushiLiquidity(address) {
+    async swapAddlpCount(swapGraph, address) {
+        let query = {
+            "query":`{
+                liquidityPositionSnapshots(first:1000,skip:0, where:{user:"${address}"}){
+                  id
+                  timestamp
+                  user{
+                    id
+                  }
+                }
+              }`,
+            "variables":null
+        }
+        let resp = await this.query(swapGraph, query)
+        return resp.liquidityPositionSnapshots.length
+    }
 
+    async sushiSwapCount(address) {
+        return await this.swapCount(config.graph.subgraphs.sushi, address)
+    }
+
+    async sushiAddlpCount(address) {
+        return await this.swapAddlpCount(config.graph.subgraphs.sushi, address)
+    }
+
+    async quickSwapCount(address) {
+        return await this.swapCount(config.graph.subgraphs.quick, address)
+    }
+
+    async quickAddlpCount(address) {
+        return await this.swapAddlpCount(config.graph.subgraphs.quick, address)
     }
 }
 
